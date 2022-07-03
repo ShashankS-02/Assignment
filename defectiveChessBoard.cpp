@@ -52,6 +52,7 @@ int main()
     cout<<"Enter the size\n";
     cin>>n;
     cout<<"Enter the defective row and coloumn\n";
+    cin>>drow>>dcol;
     defectiveChessBoard(0,0,drow,dcol,n);
     for(i=0;i<n;i++)
     {
