@@ -1,130 +1,89 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
-#define V 4
-int travllingSalesmanProblem(int graph[][V], int s)
+
+int ary[10][10],completed[10],n,cost=0;
+ 
+void takeInput()
 {
-    vector<int> vertex;
-    for (int i = 0; i < V; i++)
-        if (i != s)
-            vertex.push_back(i);
- 
-    int min_path = INT_MAX;
-    do {
-        int current_pathweight = 0;
-        int k = s;
-        for (int i = 0; i < vertex.size(); i++) {
-            current_pathweight += graph[k][vertex[i]];
-            k = vertex[i];
-        }
-        current_pathweight += graph[k][s];
- 
-        // update minimum
-        min_path = min(min_path, current_pathweight);
- 
-    } while (
-        next_permutation(vertex.begin(), vertex.end()));
- 
-    return min_path;
+    int i,j;
+    
+    cout<<"Enter the number of villages";
+    cin>>n;
+    
+    cout<<"\nEnter the Cost Matrix\n";
+    for(i=0;i < n;i++)
+    {
+        cout<<"\nEnter Elements of Row: "<<i+1<<endl;
+    
+        for( j=0;j < n;j++)
+        cin>>ary[i][j];
+        
+        completed[i]=0;
+    }
+        
+        cout<<"\n\nThe cost list is:";
+        
+    for( i=0;i < n;i++)
+    {
+        cout<<endl;
+        
+        for(j=0;j < n;j++)
+        cout<<"/t"<<ary[i][j];
+    }
 }
+ 
+int least(int c)
+{
+    int i,nc=999;
+    int min=999,kmin;
+    
+    for(i=0;i < n;i++)
+    {
+        if((ary[c][i]!=0)&&(completed[i]==0))
+        if(ary[c][i]+ary[i][c] < min)
+        {
+             min=ary[i][0]+ary[c][i];
+            kmin=ary[c][i];
+            nc=i;
+        }
+    }
+    
+    if(min!=999)
+    cost+=kmin;
+    
+    return nc;
+}
+
+void mincost(int city)
+{
+    int i,ncity;
+    
+    completed[city]=1;
+    
+    cout<<city+1<<"-->";
+    ncity=least(city);
+    
+    if(ncity==999)
+    {
+        ncity=0;
+        cout<<ncity+1;
+        cost+=ary[city][ncity];
+        
+        return;
+    }
+    
+    mincost(ncity);
+}
+ 
+
+ 
 int main()
 {
-    int graph[][V] = { { 0, 10, 15, 20 },
-                       { 10, 0, 35, 25 },
-                       { 15, 35, 0, 30 },
-                       { 20, 25, 30, 0 } };
-    int s = 0;
-    cout << "Minimum cost: " << travllingSalesmanProblem(graph, s) << endl;
+    takeInput();
+    
+    cout<<"\n\nThe Path is:\n";
+    mincost(0); 
+    
+    cout<<"\n\nMinimum cost is: "<<cost<<endl;
     return 0;
 }
-
-
-
-// #include<stdio.h>
- 
-// int ary[10][10],completed[10],n,cost=0;
- 
-// void takeInput()
-// {
-// int i,j;
- 
-// printf("Enter the number of villages: ");
-// scanf("%d",&n);
- 
-// printf("\nEnter the Cost Matrix\n");
- 
-// for(i=0;i < n;i++)
-// {
-// printf("\nEnter Elements of Row: %d\n",i+1);
- 
-// for( j=0;j < n;j++)
-// scanf("%d",&ary[i][j]);
- 
-// completed[i]=0;
-// }
- 
-// printf("\n\nThe cost list is:");
- 
-// for( i=0;i < n;i++)
-// {
-// printf("\n");
- 
-// for(j=0;j < n;j++)
-// printf("\t%d",ary[i][j]);
-// }
-// }
-// int least(int c)
-// {
-// int i,nc=999;
-// int min=999,kmin;
- 
-// for(i=0;i < n;i++)
-// {
-// if((ary[c][i]!=0)&&(completed[i]==0))
-// if(ary[c][i]+ary[i][c] < min)
-// {
-// min=ary[i][0]+ary[c][i];
-// kmin=ary[c][i];
-// nc=i;
-// }
-// }
- 
-// if(min!=999)
-// cost+=kmin;
- 
-// return nc;
-// }
- 
-// void mincost(int city)
-// {
-// int i,ncity;
- 
-// completed[city]=1;
- 
-// printf("%d--->",city+1);
-// ncity= least(city);
- 
-// if(ncity==999)
-// {
-// ncity=0;
-// printf("%d",ncity+1);
-// cost+=ary[city][ncity];
- 
-// return;
-// }
- 
-// mincost(ncity);
-// }
- 
-
- 
-// int main()
-// {
-// takeInput();
- 
-// printf("\n\nThe Path is:\n");
-// mincost(0); 
- 
-// printf("\n\nMinimum cost is %d\n ",cost);
- 
-// return 0;
-// }
